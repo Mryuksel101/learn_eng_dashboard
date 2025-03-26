@@ -5,11 +5,11 @@ export async function middleware(request: NextRequest) {
     console.log('======= MIDDLEWARE EXECUTED =======');
     console.log(`Path: ${request.nextUrl.pathname}`);
     const token = request.cookies.get('token')?.value;
-
+    console.log(`Token: ${token}`);
     // Korumalı rotaları tanımlama
     const isProtectedRoute =
         request.nextUrl.pathname.startsWith('/dashboard') ||
-        request.nextUrl.pathname.startsWith('/profile');
+        request.nextUrl.pathname.startsWith('/add-story')
 
     // Auth sayfalarını tanımlama
     const isAuthRoute =
@@ -24,6 +24,7 @@ export async function middleware(request: NextRequest) {
 
     // 2. Kullanıcı giriş yapmamış ve korumalı sayfalara erişmeye çalışıyor
     if (!token && isProtectedRoute) {
+        console.log('User is not authenticated');
         // Kullanıcıyı giriş sayfasına yönlendir ve dönüş URL'sini parametre olarak ekle
         const url = new URL('/auth/signin', request.url);
         url.searchParams.set('redirect', request.nextUrl.pathname);
@@ -36,7 +37,8 @@ export async function middleware(request: NextRequest) {
 // Middleware'in çalışacağı rotaları belirt
 export const config = {
     matcher: [
-        '/dashboard/:path*',
+        '/',
+        "/add-story",
         '/profile/:path*',
         '/auth/signin',
         '/auth/signup',
