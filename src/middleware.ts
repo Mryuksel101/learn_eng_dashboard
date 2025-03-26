@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+    console.log('======= MIDDLEWARE EXECUTED =======');
+    console.log(`Path: ${request.nextUrl.pathname}`);
     const token = request.cookies.get('token')?.value;
 
     // Korumalı rotaları tanımlama
