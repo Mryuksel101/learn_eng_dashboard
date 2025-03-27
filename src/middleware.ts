@@ -4,18 +4,21 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
     console.log('======= MIDDLEWARE EXECUTED =======');
     console.log(`Path: ${request.nextUrl.pathname}`);
+    console.log(`request: ${JSON.stringify(request.url)}`);
     const token = request.cookies.get('token')?.value;
     console.log(`Token: ${token}`);
-    // Korumalı rotaları tanımlama
-    const isProtectedRoute =
-        request.nextUrl.pathname.startsWith('/dashboard') ||
-        request.nextUrl.pathname.startsWith('/add-story')
 
     // Auth sayfalarını tanımlama
     const isAuthRoute =
         request.nextUrl.pathname.startsWith('/auth/signin') ||
         request.nextUrl.pathname.startsWith('/auth/signup') ||
         request.nextUrl.pathname.startsWith('/auth/reset-password');
+
+    // Korumalı rotaları tanımlama - ana sayfayı özel olarak ele alıyoruz
+    const isProtectedRoute =
+        request.nextUrl.pathname.startsWith('/dashboard') ||
+        request.nextUrl.pathname.startsWith('/add-story') ||
+        (request.nextUrl.pathname === '/' && !isAuthRoute);
 
     // 1. Kullanıcı giriş yapmış ve auth sayfalarına erişmeye çalışıyor
     if (token && isAuthRoute) {
@@ -34,14 +37,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-// Middleware'in çalışacağı rotaları belirt
+// Middleware'in çalışacağı rotaları belirt - format düzeltildi
 export const config = {
     matcher: [
-        '/',
-        "/add-story",
-        '/profile/:path*',
+        '/dashboard/:path*',
+        '/add-story/:path*',
         '/auth/signin',
         '/auth/signup',
-        '/auth/reset-password'
-    ],
+        '/auth/reset-password',
+        '/'
+    ]
 };
