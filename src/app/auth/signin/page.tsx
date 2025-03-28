@@ -38,11 +38,17 @@ export default function SignIn() {
         setError("");
 
         try {
+            console.log("Google ile giriş yapılıyor...");
             await signInWithGoogle();
             router.push(redirect);
         } catch (error: any) {
             console.error(error);
-            setError("Google ile giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+            // Check for the specific configuration error
+            if (error.code === "auth/configuration-not-found") {
+                setError("Google giriş yapılandırması eksik. Firebase konsolunda Google kimlik doğrulama sağlayıcısını etkinleştirmeniz gerekiyor.");
+            } else {
+                setError("Google ile giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+            }
         } finally {
             setLoading(false);
         }
