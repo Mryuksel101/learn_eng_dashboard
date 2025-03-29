@@ -92,6 +92,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Çıkış yapma
     const logout = async () => {
+        if (!auth.currentUser) throw new Error("Kullanıcı oturum açmamış");
+        // Cookie'yi temizleme
+        nookies.destroy(undefined, 'token');
+        // Firebase oturumunu kapatma
         await signOut(auth);
     };
 
