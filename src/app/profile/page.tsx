@@ -3,19 +3,16 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/lib/contexts/AuthContext';
 
 export default function ProfilePage() {
-    const router = useRouter();
+    const { logout } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleLogout = async () => {
         setIsLoading(true);
         try {
-            // Here you would typically call your logout API
-            // For example: await fetch('/api/logout', { method: 'POST' });
-
-            // After successful logout, redirect to login page
-            router.push('/login');
+            await logout();
         } catch (error) {
             console.error('Logout failed:', error);
         } finally {
