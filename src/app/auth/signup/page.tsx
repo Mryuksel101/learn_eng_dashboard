@@ -32,7 +32,7 @@ export default function SignUp() {
 
         try {
             // Kullanıcı kaydını oluştur
-            const result = await signup(email, password);
+            await signup(email, password);
 
             // Kullanıcı adını güncelle
             if (name) {
