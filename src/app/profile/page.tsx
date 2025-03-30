@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
+import ProfileHeader from './components/ProfileHeader';
 
 export default function ProfilePage() {
-    const { logout } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
+    const { user, logout } = useAuth();
 
     const handleLogout = async () => {
         setIsLoading(true);
@@ -21,25 +22,8 @@ export default function ProfilePage() {
 
     return (
         <div className="min-h-screen bg-gray-900">
-            {/* Header */}
-            <header className="bg-gray-800 shadow-md">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16 items-center">
-                        <Link href="/">
-                            <h1 className="text-xl font-bold text-gray-100 cursor-pointer">İngilizce Öğrenme Dashboard</h1>
-                        </Link>
-                        <div className="flex items-center">
-                            <button
-                                onClick={handleLogout}
-                                disabled={isLoading}
-                                className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isLoading ? 'Çıkış Yapılıyor...' : 'Çıkış Yap'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <ProfileHeader user={user}></ProfileHeader>
+
 
             {/* Main Content */}
             <main className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">

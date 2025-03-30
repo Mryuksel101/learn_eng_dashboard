@@ -16,7 +16,7 @@ import { auth } from "@/lib/firebase";
 import nookies from 'nookies';
 
 // Kullanıcı tipi
-type User = {
+export type User = {
     uid: string;
     email: string | null;
     displayName: string | null;
