@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
 
 export default function ProfilePage() {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleLogout = async () => {
@@ -29,13 +29,7 @@ export default function ProfilePage() {
                             <h1 className="text-xl font-bold text-gray-100 cursor-pointer">İngilizce Öğrenme Dashboard</h1>
                         </Link>
                         <div className="flex items-center">
-                            <button
-                                onClick={handleLogout}
-                                disabled={isLoading}
-                                className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isLoading ? 'Çıkış Yapılıyor...' : 'Çıkış Yap'}
-                            </button>
+                            {/* Logout button moved to profile section */}
                         </div>
                     </div>
                 </div>
@@ -53,8 +47,8 @@ export default function ProfilePage() {
                                     My
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-100">Kullanıcı Adı</h3>
-                                    <p className="text-gray-400">kullanici@email.com</p>
+                                    <h3 className="text-xl font-bold text-gray-100">{user?.displayName}</h3>
+                                    <p className="text-gray-400">{user?.email}</p>
                                 </div>
                             </div>
 
@@ -63,6 +57,17 @@ export default function ProfilePage() {
                                 <p className="text-gray-400">
                                     Profil içeriği buraya gelecek.
                                 </p>
+                            </div>
+
+                            {/* Logout button moved here */}
+                            <div className="mt-6 pt-6 border-t border-gray-700 flex justify-center">
+                                <button
+                                    onClick={handleLogout}
+                                    disabled={isLoading}
+                                    className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isLoading ? 'Çıkış Yapılıyor...' : 'Çıkış Yap'}
+                                </button>
                             </div>
                         </div>
                     </div>
