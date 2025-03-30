@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from 'next/navigation';
 
 import { useState, useEffect, createContext, useContext } from "react";
 import {
@@ -41,6 +42,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     // Kullanıcı oturum durumu değişikliklerini izleme
     useEffect(() => {
@@ -66,6 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 // Kullanıcı çıkış yaptığında
                 nookies.destroy(undefined, 'token');
                 setUser(null);
+                router.push('/auth/signin'); // Giriş sayfasına yönlendir
             }
 
             setLoading(false);
@@ -92,10 +95,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Çıkış yapma
     const logout = async () => {
-        if (!auth.currentUser) throw new Error("Kullanıcı oturum açmamış");
-        // Cookie'yi temizleme
-        nookies.destroy(undefined, 'token');
-        // Firebase oturumunu kapatma
         await signOut(auth);
     };
 
