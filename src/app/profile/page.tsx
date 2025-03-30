@@ -7,7 +7,9 @@ import { useAuth } from '@/lib/contexts/AuthContext';
 export default function ProfilePage() {
     const { logout, user } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
-
+    const avatarText = user?.displayName
+        ? user.displayName.split(' ').map((name: string) => name[0]).join('').substring(0, 2)
+        : "U";
     const handleLogout = async () => {
         setIsLoading(true);
         try {
@@ -44,7 +46,7 @@ export default function ProfilePage() {
                         <div className="flex flex-col space-y-4">
                             <div className="flex items-center space-x-4">
                                 <div className="h-16 w-16 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-medium shadow-lg">
-                                    My
+                                    {avatarText}
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-gray-100">{user?.displayName}</h3>
