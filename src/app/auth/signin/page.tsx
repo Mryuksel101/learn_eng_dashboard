@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { FirebaseError } from "firebase/app";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export default function SignIn() {
         try {
             await login(email, password);
             router.push(redirect);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
             setError("E-posta veya şifre hatalı. Lütfen tekrar deneyin.");
         } finally {
@@ -41,10 +42,10 @@ export default function SignIn() {
             console.log("Google ile giriş yapılıyor...");
             await signInWithGoogle();
             router.push(redirect);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
             // Check for the specific configuration error
-            if (error.code === "auth/configuration-not-found") {
+            if (error instanceof FirebaseError && error.code === "auth/configuration-not-found") {
                 setError("Google giriş yapılandırması eksik. Firebase konsolunda Google kimlik doğrulama sağlayıcısını etkinleştirmeniz gerekiyor.");
             } else {
                 setError("Google ile giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.");

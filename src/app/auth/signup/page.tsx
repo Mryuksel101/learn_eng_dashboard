@@ -2,9 +2,10 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth, AuthProvider } from "@/lib/contexts/AuthContext";
+import { useAuth } from "@/lib/contexts/AuthContext";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { FirebaseError } from "firebase/app";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -39,12 +40,16 @@ export default function SignUp() {
             }
 
             router.push("/");
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
-            if (error.code === "auth/email-already-in-use") {
-                setError("Bu e-posta adresi zaten kullanımda.");
-            } else if (error.code === "auth/weak-password") {
-                setError("Şifre en az 6 karakter olmalıdır.");
+            if (error instanceof FirebaseError) {
+                if (error.code === "auth/email-already-in-use") {
+                    setError("Bu e-posta adresi zaten kullanımda.");
+                } else if (error.code === "auth/weak-password") {
+                    setError("Şifre en az 6 karakter olmalıdır.");
+                } else {
+                    setError("Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+                }
             } else {
                 setError("Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.");
             }
@@ -60,7 +65,7 @@ export default function SignUp() {
         try {
             await signInWithGoogle();
             router.push("/");
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
             setError("Google ile kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.");
         } finally {

@@ -10,7 +10,8 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     sendPasswordResetEmail,
-    updateProfile
+    updateProfile,
+    UserCredential
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import nookies from 'nookies';
@@ -27,9 +28,9 @@ export type User = {
 type AuthContextType = {
     user: User | null;
     loading: boolean;
-    signup: (email: string, password: string) => Promise<any>;
-    login: (email: string, password: string) => Promise<any>;
-    signInWithGoogle: () => Promise<any>;
+    signup: (email: string, password: string) => Promise<UserCredential>;
+    login: (email: string, password: string) => Promise<UserCredential>;
+    signInWithGoogle: () => Promise<UserCredential>;
     logout: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     updateUserProfile: (data: { displayName?: string, photoURL?: string }) => Promise<void>;
