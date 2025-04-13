@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import TextField from '../components/textField';
+import MrTextField from '../components/mrTextField';
 
 export default function AddStoryAIPage() {
     const [storyText, setStoryText] = useState('');
@@ -14,7 +14,7 @@ export default function AddStoryAIPage() {
             <h1 className="text-2xl font-bold mb-6">Yapay Zeka ile Ekle</h1>
 
             <div className="max-w-2xl">
-                <TextField
+                <MrTextField
                     label="Hikaye Metni"
                     value={storyText}
                     onChange={(e) => handleTextChange(e.target.value)}
