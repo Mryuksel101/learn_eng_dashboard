@@ -2,13 +2,12 @@ import React from 'react';
 
 interface TextFieldProps {
     label?: string;
-    placeholder?: string;
     type?: string;
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TextField: React.FC<TextFieldProps> = ({ label, placeholder, type = 'text', value, onChange }) => {
+const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onChange }) => {
     const [isFocused, setFocus] = React.useState<boolean>(false);
 
     const handleFocus = () => {
