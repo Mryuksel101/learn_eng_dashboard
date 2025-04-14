@@ -34,7 +34,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, placeholder, type = 'text'
                 {
                     backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
                 }
-            } className={`absolute left-4 transition-all duration-200 ease-in-out bg-[171717] pointer-events-none
+            } className={`absolute left-4 transition-all duration-200 ease-in-out bg-[0a0a0a] pointer-events-none
                 ${isFocused || value
                     ? '-top-2.5 text-xs px-1 text-blue-500'
                     : 'top-1/2 transform -translate-y-1/2 text-gray-400'}`}>
