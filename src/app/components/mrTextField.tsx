@@ -17,9 +17,10 @@ const TextField: React.FC<TextFieldProps> = ({ label, placeholder, type = 'text'
     const handleBlur = () => setFocus(false);
 
     return (
-        <div className='relative'>
+        // h-12.8
+        <div className='relative h-12.8'>
             <input
-                className={`w-full px-4 py-3 rounded-3xl border border-gray-700 text-gray-200 placeholder-gray-400 z-10
+                className={` top-0 w-full px-4 py-3 rounded-3xl border border-gray-700 text-gray-200 placeholder-gray-400
                 shadow-sm transition-all duration-200 ease-in-out
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
              ${isFocused ? 'bg-[171717]' : 'text-gray-200'}`}
@@ -29,9 +30,13 @@ const TextField: React.FC<TextFieldProps> = ({ label, placeholder, type = 'text'
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             />
-            <label className={`absolute left-4 transition-all duration-200 ease-in-out z-50
+            <label style={
+                {
+                    backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
+                }
+            } className={`absolute left-4 transition-all duration-200 ease-in-out bg-[171717] pointer-events-none
                 ${isFocused || value
-                    ? '-top-2.5 text-xs bg-[171717] px-1 text-blue-500 z-800'
+                    ? '-top-2.5 text-xs px-1 text-blue-500 z-50'
                     : 'top-1/2 transform -translate-y-1/2 text-gray-400'}`}>
                 {label}
             </label>
