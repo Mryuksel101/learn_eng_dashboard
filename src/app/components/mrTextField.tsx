@@ -11,24 +11,30 @@ interface TextFieldProps {
 const TextField: React.FC<TextFieldProps> = ({ label, placeholder, type = 'text', value, onChange }) => {
     const [isFocused, setFocus] = React.useState<boolean>(false);
 
-    const handleFocus = () => setFocus(true);
+    const handleFocus = () => {
+        setFocus(true);
+    }
     const handleBlur = () => setFocus(false);
 
     return (
-        <div>
-            {label && <label className="block text-gray-200 text-sm font-medium mb-2 transition-colors">{label}</label>}
+        <div className='relative'>
             <input
-                className="w-full px-4 py-3 rounded-xl border border-gray-700 bg-gray-800 text-gray-200 placeholder-gray-400
+                className={`w-full px-4 py-3 rounded-3xl border border-gray-700 text-gray-200 placeholder-gray-400 z-10
                 shadow-sm transition-all duration-200 ease-in-out
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                hover:border-gray-600"
+             ${isFocused ? 'bg-[171717]' : 'text-gray-200'}`}
                 type={type}
-                placeholder={placeholder}
                 value={value}
                 onChange={onChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             />
+            <label className={`absolute left-4 transition-all duration-200 ease-in-out z-50
+                ${isFocused || value
+                    ? '-top-2.5 text-xs bg-[171717] px-1 text-blue-500 z-800'
+                    : 'top-1/2 transform -translate-y-1/2 text-gray-400'}`}>
+                {label}
+            </label>
         </div>
     );
 };
