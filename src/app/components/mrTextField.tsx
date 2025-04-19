@@ -4,10 +4,11 @@ interface TextFieldProps {
     label?: string;
     type?: string;
     value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    minLines?: number;
 }
 
-const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onChange }) => {
+const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onChange, minLines }) => {
     const [isFocused, setFocus] = React.useState<boolean>(false);
 
     const handleFocus = () => {
@@ -15,19 +16,32 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
     }
     const handleBlur = () => setFocus(false);
 
-    return (
-        <div className='relative overflow-visible'>
-            <input
-                className={`w-full px-4 py-3 rounded-3xl border border-gray-700 text-gray-200 placeholder-gray-400
+    const sharedProps = {
+        className: `w-full px-4 py-3 rounded-3xl border border-gray-700 text-gray-200 placeholder-gray-400
                 shadow-sm transition-all duration-300 ease-in-out
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-             ${isFocused ? 'bg-[171717]' : 'text-gray-200'}`}
-                type={type}
-                value={value}
-                onChange={onChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-            />
+             ${isFocused ? 'bg-[171717]' : 'text-gray-200'}`,
+        value,
+        onFocus: handleFocus,
+        onBlur: handleBlur,
+    };
+
+    return (
+        <div className='relative overflow-visible'>
+            {minLines ? (
+                <textarea
+                    {...sharedProps}
+                    rows={minLines}
+                    onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>}
+                    style={{ resize: 'vertical', minHeight: `${minLines * 1.5}em` }}
+                />
+            ) : (
+                <input
+                    {...sharedProps}
+                    type={type}
+                    onChange={onChange as React.ChangeEventHandler<HTMLInputElement>}
+                />
+            )}
             <label
                 style={
                     {

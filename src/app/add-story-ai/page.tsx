@@ -18,6 +18,7 @@ export default function AddStoryAIPage() {
                     label="Hikaye Metni"
                     value={storyText}
                     onChange={(e) => handleTextChange(e.target.value)}
+                    minLines={5}
                 />
 
                 <p className="text-gray-500 text-sm mt-2">Hikaye metnini buraya yazın.</p>
