@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import MrTextField from '../components/mrTextField';
+import MrTextFieldTwo from '../components/mrTextFieldTwo';
 
 export default function AddStoryAIPage() {
     const [storyText, setStoryText] = useState('');
@@ -21,7 +22,15 @@ export default function AddStoryAIPage() {
                     minLines={5}
                 />
 
-                <p className="text-gray-500 text-sm mt-2">Hikaye metnini buraya yazın.</p>
+                {/* Divider between text fields */}
+                <div className="my-8 border-t border-gray-700"></div>
+
+                <MrTextFieldTwo
+                    label="Hikaye Metni"
+                    value={storyText}
+                    onChange={(e) => handleTextChange(e.target.value)}
+                    minLines={5}
+                />
 
                 <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
