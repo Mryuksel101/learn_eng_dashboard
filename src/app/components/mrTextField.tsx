@@ -78,7 +78,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
 
                     }
                 }
-                className={`transform-gpu absolute left-4 transition-all  duration-300 ease-in-out bg-[171717] pointer-events-none
+                className={`absolute left-4 transition-all  duration-300 ease-in-out bg-[171717] pointer-events-none
                 ${isFocused || value
                         ? 'px-1 text-blue-500'
                         : 'text-gray-400 opacity-90'}`}>
