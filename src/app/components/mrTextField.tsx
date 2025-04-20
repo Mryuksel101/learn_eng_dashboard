@@ -71,9 +71,9 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
                 style={
                     {
                         top: `calc(100%/2 - 8px)`,
-                        fontSize: '16px',
+                        fontSize: isFocused || value ? '14px' : '16px',
                         lineHeight: '1',
-                        transform: isFocused || value ? `translateY(calc(-${containerHeight}px/2))` : `translateY(0px)`,
+                        transform: isFocused || value ? `translateY(calc(-${containerHeight}px/2 + 1px))` : `translateY(0px)`,
                         backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
                     }
                 }
