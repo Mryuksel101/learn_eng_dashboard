@@ -41,7 +41,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
     const handleBlur = () => setFocus(false);
 
     const sharedProps = {
-        className: `w-full px-4 py-3 rounded-3xl border-[2.2px] border-gray-700 text-gray-200 placeholder-gray-400
+        className: `w-full px-4 py-3 rounded-3xl border-[2.35px] border-gray-700 text-gray-200 placeholder-gray-400
                 shadow-sm transition-colors duration-300 ease-in-out
                 focus:outline-none focus:border-blue-500
              ${isFocused ? 'bg-[171717]' : 'text-gray-200'}`,
