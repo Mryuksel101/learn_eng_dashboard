@@ -107,6 +107,14 @@ export default function Home() {
           </div>
         </div>
       </main>
+      {/* Footer with Version Number */}
+      <footer className="fixed right-0 left-0 bottom-0 bg-gray-800 py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-end">
+            <span className="text-xs text-gray-500">Version 1.0.0</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
