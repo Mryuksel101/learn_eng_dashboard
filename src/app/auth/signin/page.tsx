@@ -49,7 +49,7 @@ function SignInForm() {
             if (error instanceof FirebaseError && error.code === "auth/configuration-not-found") {
                 setError("Google giriş yapılandırması eksik. Firebase konsolunda Google kimlik doğrulama sağlayıcısını etkinleştirmeniz gerekiyor.");
             } else {
-                setError("Google ile giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+                setError(`Google ile giriş sırasında bir hata oluştu. Lütfen tekrar deneyin. ${error}`);
             }
         } finally {
             setLoading(false);
