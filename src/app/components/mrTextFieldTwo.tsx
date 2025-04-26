@@ -74,13 +74,17 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
                         transitionTimingFunction: 'ease-in-out',
                         transitionDuration: '300ms',
                         top: `calc(100%/2)`,
-                        fontSize: '16px', // Keep base font size consistent
+                        fontSize: '16px',
                         lineHeight: '1',
                         transform: isFocused || value
                             ? `translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875)`
                             : `translateY(-50%) scale(1)`,
                         backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
                         transformOrigin: 'left center',
+                        willChange: 'transform',
+                        backfaceVisibility: 'hidden',
+                        perspective: 1000,
+                        WebkitFontSmoothing: 'antialiased',
                     }
                 }
                 className={`absolute left-4 bg-[171717] pointer-events-none
