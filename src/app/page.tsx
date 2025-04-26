@@ -111,7 +111,7 @@ export default function Home() {
       <footer className="fixed right-0 left-0 bottom-0 bg-gray-800 py-3 shadow-[0_-4px_6px_-1px_rgb(17,24,39,0.5)] border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-end">
-            <span className="text-xs text-gray-500">Version 0.5.2</span>
+            <span className="text-xs text-gray-500">Version 0.5.3</span>
           </div>
         </div>
       </footer>
