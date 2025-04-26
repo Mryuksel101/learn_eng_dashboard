@@ -70,15 +70,20 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
             <label
                 style={
                     {
+                        transitionProperty: 'all',
+                        transitionTimingFunction: 'ease-in-out',
+                        transitionDuration: '300ms',
                         top: `calc(100%/2)`,
-                        fontSize: isFocused || value ? '14px' : '16px',
+                        fontSize: '16px', // Keep base font size consistent
                         lineHeight: '1',
-                        transform: isFocused || value ? `translateY(calc(-${containerHeight}px/2 - 50%))` : `translateY(-50%)`,
+                        transform: isFocused || value
+                            ? `translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875)`
+                            : `translateY(-50%) scale(1)`,
                         backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
-
+                        transformOrigin: 'left center',
                     }
                 }
-                className={`absolute left-4 transition-all duration-300 ease-in-out bg-[171717] pointer-events-none
+                className={`absolute left-4 bg-[171717] pointer-events-none
                 ${isFocused || value
                         ? 'px-1 text-blue-500'
                         : 'text-gray-400'}`}>
