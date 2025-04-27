@@ -41,7 +41,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
     const handleBlur = () => setFocus(false);
 
     const sharedProps = {
-        className: `w-full px-4 py-3 rounded-3xl border-[2.40px] border-[#2f3340] text-gray-200 placeholder-gray-400
+        className: `w-full px-4 py-3 rounded-3xl border-[2.40px] border-slate-800 text-gray-200
                 shadow-sm transition-colors duration-300 ease-in-out bg-[#101828]
                 focus:outline-none focus:border-blue-500
              ${isFocused ? 'bg-[#101828]' : 'text-gray-200'}`,
@@ -79,7 +79,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
                         transform: isFocused || value
                             ? `translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875)`
                             : `translateY(-50%) scale(1)`,
-                        backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
+                        //backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
                         transformOrigin: 'left center',
                         willChange: 'transform',
                         backfaceVisibility: 'hidden',
@@ -87,10 +87,10 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
                         WebkitFontSmoothing: 'antialiased',
                     }
                 }
-                className={`absolute left-4 bg-[171717] pointer-events-none 
+                className={`absolute left-4 bg-[#101828] pointer-events-none 
                 ${isFocused || value
                         ? 'px-1 text-blue-500'
-                        : 'text-[#66718b]'}`}>
+                        : 'text-[#64748B]'}`}>
                 {label}
             </label>
         </div >
