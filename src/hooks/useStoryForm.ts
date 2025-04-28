@@ -10,7 +10,7 @@ export function useStoryForm() {
         imagePath: null,
     });
 
-    const handleChange = (field: keyof Story, value: any) => {
+    const handleChange = <K extends keyof Story>(field: K, value: Story[K]) => {
         setStory(prev => ({
             ...prev,
             [field]: value
