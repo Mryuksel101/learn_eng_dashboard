@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface TextFieldProps {
     label?: string;
@@ -9,9 +9,10 @@ interface TextFieldProps {
 }
 
 const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onChange, minLines }) => {
-    const [isFocused, setFocus] = React.useState<boolean>(false);
+    const [isFocused, setFocus] = useState<boolean>(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [containerHeight, setContainerHeight] = React.useState(0);
+    const [containerHeight, setContainerHeight] = useState(0);
+    const [willChange, setWillChange] = useState(false);
 
     useEffect(() => {
         if (containerRef.current) {
@@ -35,10 +36,30 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
         }
     }, []);
 
+    // Modified focus/blur handlers to toggle will-change
     const handleFocus = () => {
+        setWillChange(true);  // Enable will-change before animation starts
         setFocus(true);
     }
-    const handleBlur = () => setFocus(false);
+
+    const handleBlur = () => {
+        setFocus(false);
+        // Keep will-change on during the transition
+    }
+
+    // Add effect to remove will-change after transition completes
+    useEffect(() => {
+        let timeout: NodeJS.Timeout;
+        if (isFocused || value) {
+            // When the label is moved (focused or has value), start transition
+            setWillChange(true);
+            // Remove will-change after transition ends (300ms + small buffer)
+            timeout = setTimeout(() => {
+                setWillChange(false);
+            }, 350);
+        }
+        return () => clearTimeout(timeout);
+    }, [isFocused, value]);
 
     const sharedProps = {
         className: `w-full px-4 py-3 rounded-3xl border-[2.40px] border-slate-800 text-gray-200
@@ -70,7 +91,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
             <label
                 style={
                     {
-                        transitionProperty: 'all',
+                        transitionProperty: 'transform, scale, color',
                         transitionTimingFunction: 'ease-in-out',
                         transitionDuration: '300ms',
                         top: `calc(100%/2)`,
@@ -79,17 +100,17 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
                         transform: isFocused || value
                             ? `translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875)`
                             : `translateY(-50%) scale(1)`,
-                        //backgroundColor: isFocused || value ? '#0a0a0a' : 'transparent',
                         transformOrigin: 'left center',
-                        willChange: 'transform',
+                        // Only apply will-change when needed
+                        ...(willChange ? { willChange: 'transform' } : {}),
                         backfaceVisibility: 'hidden',
                         perspective: 1000,
                         WebkitFontSmoothing: 'antialiased',
                     }
                 }
-                className={`absolute left-4 bg-[#101828] pointer-events-none 
+                className={`absolute left-4 bg-[#101828] pointer-events-none px-1
                 ${isFocused || value
-                        ? 'px-1 text-blue-500'
+                        ? 'text-blue-500'
                         : 'text-[#64748B]'}`}>
                 {label}
             </label>
