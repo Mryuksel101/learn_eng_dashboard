@@ -91,9 +91,9 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
             <label
                 style={
                     {
-                        transitionProperty: 'transform, scale, color',
+                        transitionProperty: 'transform',
                         transitionTimingFunction: 'ease-in-out',
-                        transitionDuration: '300ms',
+                        transitionDuration: '250ms',
                         top: `calc(100%/2)`,
                         fontSize: '16px',
                         lineHeight: '1',
