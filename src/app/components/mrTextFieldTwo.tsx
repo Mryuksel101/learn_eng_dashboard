@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 
 interface TextFieldProps {
     label?: string;
@@ -9,7 +9,6 @@ interface TextFieldProps {
 }
 
 const TextField: React.FC<TextFieldProps> = React.memo(({ label, type = 'text', value, onChange, minLines }) => {
-    const [isFocused, setFocus] = useState<boolean>(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerHeight, setContainerHeight] = useState(0);
 
@@ -38,75 +37,66 @@ const TextField: React.FC<TextFieldProps> = React.memo(({ label, type = 'text', 
         }
     }, []);
 
-    // Optimized focus/blur handlers with useCallback
-    const handleFocus = useCallback(() => {
-        setFocus(true);
-    }, []);
-
-    const handleBlur = useCallback(() => {
-        setFocus(false);
-    }, []);
-
-    // Memoize shared props to prevent unnecessary recalculations
-    const sharedProps = useMemo(() => ({
-        className: `w-full px-4 py-3 rounded-3xl border-[2.40px] border-slate-800 text-gray-200
-                shadow-sm transition-colors duration-300 ease-in-out bg-[#101828]
-                focus:outline-none focus:border-blue-500
-             ${isFocused ? 'bg-[#101828]' : 'text-gray-200'}`,
-        value,
-        onFocus: handleFocus,
-        onBlur: handleBlur,
-    }), [isFocused, value, handleFocus, handleBlur]);
-
-    // Memoize label styles to prevent recalculation on every render
-    const labelStyles = useMemo(() => ({
-        transitionProperty: 'transform',
-        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', // Using easing function for smoother animation
-        transitionDuration: '250ms',
-        top: `calc(100%/2)`,
-        fontSize: '16px',
-        lineHeight: '1',
-        transform: isFocused || value
-            ? `translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875)`
-            : `translateY(-50%) scale(1)`,
-        transformOrigin: 'left center',
-        backfaceVisibility: 'hidden' as const,
-        perspective: 1000,
-        WebkitFontSmoothing: 'antialiased',
-        willChange: isFocused ? 'transform' : 'auto', // Only use will-change when animating
-    }), [isFocused, value, containerHeight]);
-
-    // Memoize label classes
-    const labelClasses = useMemo(() => `absolute left-4 bg-[#101828] pointer-events-none px-1
-        ${isFocused || value ? 'text-blue-500' : 'text-[#64748B]'}`,
-        [isFocused, value]);
-
     // Memoize textarea style
     const textareaStyle = useMemo(() => ({
         resize: 'vertical',
         minHeight: minLines ? `${minLines * 1.5}em` : undefined
     }) as React.CSSProperties, [minLines]);
 
+    const inputFieldClasses = `w-full px-4 py-3 rounded-3xl border-[2.40px] border-slate-800 text-gray-200
+        shadow-sm transition-colors duration-300 ease-in-out bg-[#101828]
+        focus:outline-none focus:border-blue-500`;
+
+    const baseContainerClass = 'relative overflow-visible textfield-container';
+    const containerClass = value ? `${baseContainerClass} has-value` : baseContainerClass;
+
     return (
-        <div ref={containerRef} className='relative overflow-visible'>
+        <div ref={containerRef} className={containerClass}>
+            <style jsx>{`
+                .textfield-container {
+                    position: relative;
+                }
+                
+                .textfield-label {
+                    position: absolute;
+                    left: 16px;
+                    top: 50%;
+                    background-color: #101828;
+                    pointer-events: none;
+                    padding: 0 4px;
+                    color: #64748B;
+                    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+                    transform: translateY(-50%) scale(1);
+                    transform-origin: left center;
+                    backface-visibility: hidden;
+                    -webkit-font-smoothing: antialiased;
+                }
+                
+                .textfield-container:focus-within .textfield-label,
+                .textfield-container.has-value .textfield-label {
+                    transform: translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875);
+                    color: #3b82f6; /* blue-500 */
+                }
+            `}</style>
+
             {minLines ? (
                 <textarea
-                    {...sharedProps}
+                    className={inputFieldClasses}
                     rows={minLines}
+                    value={value}
                     onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>}
                     spellCheck="true"
                     style={textareaStyle}
                 />
             ) : (
                 <input
-                    {...sharedProps}
+                    className={inputFieldClasses}
                     type={type}
+                    value={value}
                     onChange={onChange as React.ChangeEventHandler<HTMLInputElement>}
                 />
             )}
-            <label
-                style={labelStyles}
-                className={labelClasses}>
+            <label className="textfield-label">
                 {label}
             </label>
         </div>
