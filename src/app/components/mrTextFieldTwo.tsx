@@ -70,7 +70,7 @@ const TextField: React.FC<TextFieldProps> = React.memo(({ label, type = 'text', 
             ? `translateY(calc(-${containerHeight}px/2 - 50%)) scale(0.875)`
             : `translateY(-50%) scale(1)`,
         transformOrigin: 'left center',
-        backfaceVisibility: 'hidden' as 'hidden',
+        backfaceVisibility: 'hidden' as const,
         perspective: 1000,
         WebkitFontSmoothing: 'antialiased',
         willChange: isFocused ? 'transform' : 'auto', // Only use will-change when animating
