@@ -12,7 +12,6 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
     const [isFocused, setFocus] = useState<boolean>(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerHeight, setContainerHeight] = useState(0);
-    const [willChange, setWillChange] = useState(false);
 
     useEffect(() => {
         if (containerRef.current) {
@@ -38,7 +37,6 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
 
     // Modified focus/blur handlers to toggle will-change
     const handleFocus = () => {
-        setWillChange(true);  // Enable will-change before animation starts
         setFocus(true);
     }
 
@@ -48,18 +46,7 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
     }
 
     // Add effect to remove will-change after transition completes
-    useEffect(() => {
-        let timeout: NodeJS.Timeout;
-        if (isFocused || value) {
-            // When the label is moved (focused or has value), start transition
-            setWillChange(true);
-            // Remove will-change after transition ends (300ms + small buffer)
-            timeout = setTimeout(() => {
-                setWillChange(false);
-            }, 350);
-        }
-        return () => clearTimeout(timeout);
-    }, [isFocused, value]);
+    useEffect(() => { }, [isFocused, value]);
 
     const sharedProps = {
         className: `w-full px-4 py-3 rounded-3xl border-[2.40px] border-slate-800 text-gray-200
@@ -102,7 +89,6 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = 'text', value, onCh
                             : `translateY(-50%) scale(1)`,
                         transformOrigin: 'left center',
                         // Only apply will-change when needed
-                        ...(willChange ? { willChange: 'transform' } : {}),
                         backfaceVisibility: 'hidden',
                         perspective: 1000,
                         WebkitFontSmoothing: 'antialiased',
